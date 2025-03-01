@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn1{
+    @apply font-bold flex w-32 justify-center shadow-gray-400 rounded-lg items-center text-white h-full;
+}
+.btn2 {
+    @apply shadow-md active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-200 flex justify-center items-center  py-3 px-4 rounded-md text-white mx-2 text-sm;
+}
