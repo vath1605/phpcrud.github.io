@@ -8,3 +8,7 @@
 .btn2 {
     @apply shadow-md active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-200 flex justify-center items-center  py-3 px-4 rounded-md text-white mx-2 text-sm;
 }
+.input{
+    @apply outline-none border w-3/4 py-2 ps-3 rounded-lg
+    focus:border-blue-300 border-gray-200;
+}
