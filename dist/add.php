@@ -16,7 +16,7 @@
     </header>
     <main class="w-full flex flex-col items-center h-auto">
         <div class="w-4/5 h-auto my-10">
-            <a href="../index.html" class="btn1 bg-red-300 shadow-md active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-200 py-4">
+            <a href="../index.php" class="btn1 bg-red-300 shadow-md active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-200 py-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi me-1 bi-arrow-return-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
                   </svg>
@@ -24,14 +24,14 @@
             </a>
         </div>
         <section class="w-1/2 h-auto flex justify-center">
-            <form action="" class="w-4/5 flex px-5 py-16 gap-5 flex-col items-center rounded-3xl h-full bg-slate-300">
+            <form action="add.php" method="post" class="w-4/5 flex px-5 py-16 gap-5 flex-col items-center rounded-3xl h-full bg-slate-300">
                 <label class="text-white uppercase text-lg font-bold">Client Information</label>
-                <input type="text" name="" class="input" placeholder="Client Name" id="">
-                <input type="email" name="" class="input" placeholder="Client Email" id="">
-                <input type="text" name="" class="input" placeholder="Client Phone Number" id="">
-                <input type="text" name="" class="input" placeholder="Client Address" id="">
+                <input type="text" name="name" class="input" placeholder="Client Name" id="">
+                <input type="email" name="email" class="input" placeholder="Client Email" id="">
+                <input type="text" name="phone" class="input" placeholder="Client Phone Number" id="">
+                <input type="text" name="address" class="input" placeholder="Client Address" id="">
                <div class="w-3/4 justify-end flex h-auto">
-                <button type="submit" class="btn2 bg-blue-400">
+                <button name="save" type="submit" class="btn2 bg-blue-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi me-1 bi-floppy2" viewBox="0 0 16 16">
                         <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v3.5A1.5 1.5 0 0 1 11.5 6h-7A1.5 1.5 0 0 1 3 4.5V1H1.5a.5.5 0 0 0-.5.5m9.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
                       </svg>
@@ -43,6 +43,39 @@
                       </svg>
                     Cancel</button>
                </div>
+               <?php 
+                    
+                    include './database.php';
+                    if(isset($_POST['save'])){
+                        $name = $_POST['name'];
+                        $email = $_POST['email'];
+                        $phone = $_POST['phone'];
+                        $address = $_POST['address'];
+                        if(empty($name) || empty($email) || empty($phone) || empty($address)){
+                            echo "
+                            <section>
+                    <h1 class=\"text-red-500\">Your information could be not null</h1></section>
+                ";
+                        }else{
+                            $phone = "(+855) ".$phone;
+                            $sql = "INSERT INTO tbl_client(name, email, phone, address) 
+                            VALUES('$name','$email','$phone','$address')
+                            ";
+
+                            try{
+                                mysqli_query($conn,$sql);
+                            }catch(mysqli_sql_exception $e){
+                                echo "Error: ".$e->getMessage();
+                            }
+                            header("location: ../index.php");
+
+                            mysqli_close($conn);
+                        }
+                    }
+                    
+                    
+                    ?>
+                
             </form>
         </section>
     </main>
